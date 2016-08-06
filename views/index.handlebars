@@ -1,19 +1,43 @@
-<h1>Eat the Burger!</h1>
-{{#each burgerData}}
-  <pre>
-    {{#if this.devoured}}
-      <span>             <span>This burger was eaten: {{burger_name}}
-      {{else}}
-        {{burger_name}}
-        <form action="/update/{{ id }}" method="POST">
-        <button type="sumbit">Devour it NOW!</button>
-          
-        </form>
-    {{/if}}    
-  </pre>
-{{/each}}
+<div class="container">
+  
+  <img src="assets/img/burger.png">
+  <h1>Eat-Da-Burger!</h1>
 
-<form action="/create" method="POST">
-  <textarea name="item" rows="2" cols="30"></textarea>
-  <button type="submit">Enter Your burger</button>
-</form>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <h2>Burgers to Eat!</h2>
+      {{#each burgers}}
+        {{#unless this.devoured}}
+          <form id="update" action="/burgers/devour/{{this.id}}?_method=PUT" method="POST">
+            <input type="hidden" name="devoured" value="true">
+            <button class="btn btn-danger" type="submit">Devour it!</button>
+          </form>
+          <div class="well">
+            {{this.id}}. {{this.burger_name}}
+          </div>
+        {{/unless}}
+      {{/each}}
+    </div>
+
+    <div class="col-sm-6">
+      <h2>Burgers Devoured!</h2>
+      {{#each burgers}}
+        {{#if this.devoured}}
+          <div class="well devoured">
+            {{this.id}}. {{this.burger_name}}
+          </div>
+        {{/if}}
+      {{/each}}
+      </div>
+
+  </div>
+
+  <h2>Enter a burger you want to eat then click "Submit"</h2>
+  
+  <form id="create" action="/burgers/create" method="POST">
+    <textarea name="burger_name"></textarea>
+    <button class="btn btn-warning" type="submit">Submit</button>
+  </form>
+
+</div>
